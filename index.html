@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scroll Website</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gradient-to-br from-purple-300 via-blue-200 to-indigo-300 p-6 space-y-16">
+
+  <!-- KOTAK 1: Statistik Perikanan (Biru Style) -->
+<div class="w-full max-w-6xl mx-auto rounded-3xl shadow-2xl overflow-hidden">
+  <!-- Header biru tua -->
+  <div class="bg-blue-600 text-white text-center py-4 text-xl font-bold rounded-t-3xl">
+    Statistik Produksi Perikanan
+  </div>
+
+  <!-- Area grafik dengan latar biru muda -->
+  <div class="bg-blue-100 px-4 py-8">
+    <h2 class="text-center text-gray-800 text-lg mb-2 font-medium">Lihat grafik perkembangan Produksi Perikanan</h2>
+    <div class="max-w-4xl mx-auto">
+      <canvas id="myChart"></canvas>
+    </div>
+  </div>
+</div>
+
+
+  <!-- KOTAK 2: Chatbot Tampilan Baru -->
+<div class="bg-white/80 backdrop-blur-md w-full max-w-6xl min-h-[70vh] mx-auto rounded-3xl shadow-2xl overflow-hidden">
+  <!-- Header biru -->
+  <div class="bg-blue-600 text-white text-center py-4 text-xl font-bold rounded-t-3xl">
+    Chatbot Harga Ikan Jakarta
+  </div>
+
+  <!-- Chat area -->
+  <div id="chatBox" class="bg-blue-100 px-4 py-6 h-96 overflow-y-auto text-sm space-y-4">
+    <div class="bg-white p-4 rounded-xl shadow w-fit max-w-sm">Halo! Saya adalah Chatbot Harga Ikan Jakarta. Ada yang bisa saya bantu?</div>
+  </div>
+
+  <!-- Input & Tombol -->
+  <div class="flex items-center gap-2 bg-white px-4 py-4 border-t">
+    <input id="chatInput" type="text" placeholder="Ketik pesan Anda..." class="flex-grow px-4 py-2 border border-gray-300 rounded-xl focus:outline-none" />
+    <button onclick="sendChat()" class="bg-blue-600 text-white px-6 py-2 rounded-xl hover:bg-blue-700">Kirim</button>
+  </div>
+</div>
+
+
+  <!-- KOTAK 3: Kontak -->
+  <div class="bg-white/80 backdrop-blur-md w-full max-w-6xl min-h-[70vh] mx-auto rounded-3xl shadow-2xl p-12 text-center">
+    <h2 class="text-3xl font-bold mb-4">Kontak Kami</h2>
+    <p class="text-gray-600 mb-6 max-w-xl mx-auto">Tertarik dengan proyek ini? Hubungi kami sekarang!</p>
+    <button class="bg-indigo-600 text-white px-8 py-3 rounded-xl hover:bg-indigo-700">Hubungi Kami</button>
+  </div>
+
+  <!-- SCRIPT CHART & CHATBOT -->
+  <script>
+    // Chart.js grafik
+    // Chart.js grafik versi gaya biru tua & biru muda
+const ctx = document.getElementById('myChart');
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    datasets: [{
+      label: 'Produksi Perikanan',
+      data: [30, 50, 40, 60, 80, 100],
+      borderColor: 'rgba(37, 99, 235, 1)', // biru tua (seperti header chatbot)
+      backgroundColor: 'rgba(191, 219, 254, 0.5)', // biru muda transparan
+      pointBackgroundColor: 'rgba(37, 99, 235, 1)',
+      tension: 0.3,
+      fill: true
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        labels: {
+          color: '#1e3a8a', // teks legend biru tua
+        }
+      }
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: '#1e3a8a'
+        }
+      },
+      y: {
+        ticks: {
+          color: '#1e3a8a'
+        }
+      }
+    }
+  }
+});
+
+
+    // Simpel ChatBot Logic
+    function sendChat() {
+      const input = document.getElementById('chatInput');
+      const chatBox = document.getElementById('chatBox');
+      const userMsg = input.value.trim();
+      if (!userMsg) return;
+
+      // Tampilkan pertanyaan user
+      chatBox.innerHTML += `<div><strong>🧑 Kamu:</strong> ${userMsg}</div>`;
+
+      // Balasan dummy
+      const botResponse = getBotReply(userMsg);
+      setTimeout(() => {
+        chatBox.innerHTML += `<div><strong>🤖 Bot:</strong> ${botResponse}</div>`;
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }, 500);
+
+      input.value = '';
+    }
+
+    function getBotReply(msg) {
+      msg = msg.toLowerCase();
+      if (msg.includes("hai") || msg.includes("halo")) return "Halo juga! Ada yang bisa saya bantu?";
+      if (msg.includes("harga")) return "Maaf, saya belum bisa menampilkan harga. Fitur ini masih dalam pengembangan.";
+      if (msg.includes("nama kamu")) return "Saya adalah bot demo buatan kamu 😄";
+      return "Maaf, saya belum mengerti pertanyaan itu.";
+    }
+  </script>
+</body>
+</html>
